@@ -14,7 +14,13 @@ OMDB_API_KEYS = [
     '1eddebb7',
     'cb14d3a4',
     'ea72618d',
-    '16e3787'
+    '16e3787',
+    'ef3b167',
+    '2d423aa1',
+    '116311f3',
+    'bad8ea95',
+    '6491cc6f',
+    '84450ae4'
 ]
 
 current_key_index = 0

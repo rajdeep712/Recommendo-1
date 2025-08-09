@@ -41,3 +41,16 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     movies = models.ForeignKey(Movie,on_delete=models.CASCADE,related_name='comments')
     avatar = models.CharField(max_length=2,null=True)
+
+
+class Episode(models.Model):
+    series = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='episodes')
+    season = models.IntegerField()
+    episode_number = models.IntegerField()
+
+    title = models.CharField(max_length=255)
+    plot = models.TextField(null=True, blank=True)
+    imdb_rating = models.FloatField(null=True, blank=True)
+    runtime = models.CharField(max_length=20, null=True, blank=True)
+
+    imdb_id = models.CharField(max_length=20, unique=True)

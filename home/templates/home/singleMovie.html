@@ -235,87 +235,98 @@
 
 
   <div id="watchDialog" class="dialog-overlay" onclick="closeWatchDialog()">
-        <div class="dialog-content" onclick="event.stopPropagation()">
-            <div class="dialog-header">
-                <h2 class="dialog-title">{{ movie.title }}</h2>
-                <button class="dialog-close" onclick="closeWatchDialog()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 6L6 18"></path>
-                        <path d="M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            {% if movie.content_type == 'series' %}
-              <div class="tabs">
-                <div class="tabs-list">
-
-                  {% for season in seasons %}
-                    <button class="tab-trigger {% if forloop.first %} active{% endif %}" onclick="switchSeason({{ season }})" id="season-{{ season }}-tab">
-                        Season {{ season }}
-                    </button>
-                  {% endfor %}
-                </div>
-
-
-                {% for season in seasons %}
-
-                <div class="tab-content {% if not forloop.first %} hidden{% endif %}" id="season-{{ season }}-content">
-                  <h3 class="season-title">Season {{ season }}</h3>
-                  <div class="episodes-container">
-
-                    {% for episode in episodes_per_season|get_item:season %}
-
-                      <a href="http://multiembed.mov/?video_id={{ movie.code }}&s={{ season }}&e={{ episode }}" target="_blank" class="episode">
-                        <div class="episode-play">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="6,3 20,12 6,21"></polygon>
-                            </svg>
-                        </div>
-                        <div class="episode-info">
-                            <h4 class="episode-title">Episode {{ episode }}</h4>
-                        </div>
-
-
-                        {% with movie.code|stringformat:"s" as mcode %}
-                          {% with season|stringformat:"s" as s %}
-                            {% with episode|stringformat:"s" as e %}
-                              {% with mcode|add:"-"|add:s|add:"-"|add:e as key %}
-                                {% if key in watched_set %}
-                                  <button class="watched-btn{% if key in watched_set %} watched{% endif %}" data-movie="{{ movie.code }}" data-season="{{ season }}" data-episode="{{ episode }}">
-                                    Watched
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big-icon lucide-circle-check-big">
-                                      <path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/>
-                                    </svg>
-                                  </button>
-                                {% else %}
-                                  <button class="watched-btn{% if key in watched_set %} watched{% endif %}" data-movie="{{ movie.code }}" data-season="{{ season }}" data-episode="{{ episode }}">
-                                    Mark as watched
-                                  </button>
-                                {% endif %}
-                              {% endwith %}
-                            {% endwith %}
-                          {% endwith %}
-                        {% endwith %}
-
-
-                      </a>
-
-
-                    {% endfor %}
-
-                  </div>
-                </div>
-
-                {% endfor %}
-
-
-              </div>
-              
-            {% endif %}
-
+    <div class="dialog-content" onclick="event.stopPropagation()">
+        <div class="dialog-header">
+          <h2 class="dialog-title">{{ movie.title }}</h2>
+          <button class="dialog-close" onclick="closeWatchDialog()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+          </button>
         </div>
+
+        {% if movie.content_type == 'series' %}
+        <div class="tabs">
+          <div class="tabs-list">
+            {% for season in seasons %}
+              <button class="tab-trigger {% if forloop.first %} active{% endif %}" 
+                      onclick="switchSeason({{ season }})" 
+                      id="season-{{ season }}-tab">
+                  Season {{ season }}
+              </button>
+            {% endfor %}
+          </div>
+
+          {% for season in seasons %}
+          <div class="tab-content {% if not forloop.first %} hidden{% endif %}" id="season-{{ season }}-content">
+            <h3 class="season-title">Season {{ season }}</h3>
+            <div class="episodes-container">
+
+            {% for episode in episodes_per_season|get_item:season %}
+            <div class="episode">
+              <div class="episode-play">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="6,3 20,12 6,21"></polygon>
+                </svg>
+              </div>
+
+              <div class="episode-info">
+                <h4 class="episode-title">Episode {{ episode }}</h4>
+              </div>
+
+              <!-- Two separate links -->
+              <div class="episode-links">
+                <a href="http://multiembed.mov/?video_id={{ movie.code }}&s={{ season }}&e={{ episode }}" 
+                  target="_blank" class="episode-link-btn">
+                  Link 1
+                </a>
+                <a href="https://vidsrc.xyz/embed/tv?imdb={{ movie.code }}&season={{ season }}&episode={{ episode }}" 
+                  target="_blank" class="episode-link-btn">
+                  Link 2
+                </a>
+              </div>
+
+              <!-- Watched / Mark as Watched Button -->
+              {% with movie.code|stringformat:"s" as mcode %}
+              {% with season|stringformat:"s" as s %}
+              {% with episode|stringformat:"s" as e %}
+              {% with mcode|add:"-"|add:s|add:"-"|add:e as key %}
+                  {% if key in watched_set %}
+                  <button class="watched-btn watched"
+                          data-movie="{{ movie.code }}"
+                          data-season="{{ season }}"
+                          data-episode="{{ episode }}">
+                      Watched
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21.801 10A10 10 0 1 1 17 3.335"/>
+                          <path d="m9 11 3 3L22 4"/>
+                      </svg>
+                  </button>
+                  {% else %}
+                  <button class="watched-btn"
+                          data-movie="{{ movie.code }}"
+                          data-season="{{ season }}"
+                          data-episode="{{ episode }}">
+                      Mark as watched
+                  </button>
+                  {% endif %}
+              {% endwith %}
+              {% endwith %}
+              {% endwith %}
+              {% endwith %}
+            </div>
+            {% endfor %}
+              </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
     </div>
+</div>
+
 
   <script src="{% static "home/singleMovie.js" %}"></script>
 </body>
