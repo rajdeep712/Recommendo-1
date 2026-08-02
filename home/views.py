@@ -14,7 +14,8 @@ import pickle
 import json
 from decouple import config
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 # Create your views here.
 
 
