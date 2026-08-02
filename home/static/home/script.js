@@ -27,6 +27,7 @@ function scrollMovies(button,direction) {
     });
 }
 
+const animate = document.querySelector('.animate');
 
 const slides = Array.from(document.querySelectorAll('.pic'))
 let counter = 0;
@@ -130,9 +131,10 @@ function fetchFirstTime(movieDiv) {
         }
 
         const movies = data.movies;
+        let movies_html = '';
 
         movies.forEach((movie) => {
-            const movie_html = `
+            movies_html += `
             <a href="/home/${movie.code}">
                 <article class='movie-card'>
                 <img src="${movie.poster}" alt="${movie.title}">
@@ -154,10 +156,9 @@ function fetchFirstTime(movieDiv) {
                 </article>
             </a>
             `;
-
-            container_div.innerHTML += movie_html;
         });
 
+        container_div.innerHTML = movies_html;
         page += 1;
     });
 }
@@ -176,12 +177,30 @@ const divObserver = new IntersectionObserver((entries,divObserver) => {
     threshold: 0.1
 })
 
+function fillSkeletonCards(container) {
+    const cardWidth = 235;
+    const gap = 20;
+    const count = Math.max(6, Math.ceil(container.clientWidth / (cardWidth + gap)) + 1);
+    container.innerHTML = Array.from({ length: count }, () =>
+        `<article class="movie-card skeleton" aria-hidden="true"></article>`
+    ).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     scrollMovieDivs.forEach((movieDiv) => {
+        fillSkeletonCards(movieDiv);
         fetchFirstTime(movieDiv);
     })
 })
 
+// window.addEventListener('load', () => {
+//     animate.style.display = 'none';
+//     document.body.style.overflow = 'auto';
+
+//     aboutDivTargets.forEach(div => {
+//         divObserver.observe(div);
+//     })
+// })
 
 window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {

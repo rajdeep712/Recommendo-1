@@ -133,9 +133,10 @@ function fetchFirstTime(movieDiv) {
         }
 
         const movies = data.movies;
+        let movies_html = '';
 
         movies.forEach((movie) => {
-            const movie_html = `
+            movies_html += `
             <a href="/home/${movie.code}">
                 <article class='movie-card'>
                 <img src="${movie.poster}" alt="${movie.title}">
@@ -157,17 +158,26 @@ function fetchFirstTime(movieDiv) {
                 </article>
             </a>
             `;
-
-            container_div.innerHTML += movie_html;
         });
 
+        container_div.innerHTML = movies_html;
         page += 1;
     });
 }
 
 
+function fillSkeletonCards(container) {
+    const cardWidth = 235;
+    const gap = 20;
+    const count = Math.max(6, Math.ceil(container.clientWidth / (cardWidth + gap)) + 1);
+    container.innerHTML = Array.from({ length: count }, () =>
+        `<article class="movie-card skeleton" aria-hidden="true"></article>`
+    ).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     scrollMovieDivs.forEach((movieDiv) => {
+        fillSkeletonCards(movieDiv);
         fetchFirstTime(movieDiv);
     })
 })

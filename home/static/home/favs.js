@@ -2,18 +2,23 @@ const heading = document.querySelector('.heading');
 const castName = heading.id;
 const box = document.querySelector('.movie-grid');
 const movieLoader = document.querySelector('.movie-loader');
-page = 1;
+let page = 1;
+let isFirstLoad = true;
 
+function fillSkeletonCards(container, minCount = 12) {
+    if (!container) return;
+    const minCard = 250;
+    const gap = 24;
+    const width = container.clientWidth || container.parentElement?.clientWidth || window.innerWidth;
+    const cols = Math.max(1, Math.floor(width / (minCard + gap)));
+    const count = Math.max(minCount, cols * 2);
+    container.innerHTML = Array.from({ length: count }, () =>
+        `<article class="movie-card skeleton" aria-hidden="true"></article>`
+    ).join('');
+}
 
-function fetchAndAdd(url) {
-    fetch(url).then((response) => {
-        return response.json();
-    }).then((data) => {
-        if(data.has_next === false) {
-            window.removeEventListener('scroll',handleScroll);
-        }
-        data.movies.forEach((movie) => {
-            const movieHTML = `
+function movieCardHTML(movie) {
+    return `
             <a href="/home/${movie.code}">
             <article class="movie-card">
             <img
@@ -35,15 +40,32 @@ function fetchAndAdd(url) {
             </div>
             </article>
             </a>
-            `
-            box.innerHTML += movieHTML;
-        })
+            `;
+}
+
+function fetchAndAdd(url) {
+    fetch(url).then((response) => {
+        return response.json();
+    }).then((data) => {
+        if(data.has_next === false) {
+            window.removeEventListener('scroll',handleScroll);
+        }
+        let movies_html = '';
+        data.movies.forEach((movie) => {
+            movies_html += movieCardHTML(movie);
+        });
+        if (isFirstLoad) {
+            box.innerHTML = movies_html;
+            isFirstLoad = false;
+        } else {
+            box.innerHTML += movies_html;
+        }
         movieLoader.style.display = 'none';
     });
 }
 
 document.addEventListener('DOMContentLoaded',() => {
-    movieLoader.style.display = 'block';
+    fillSkeletonCards(box);
     const url = `/home/movies/?name=${encodeURIComponent(castName)}&page=${page}`
     page += 1;
     fetchAndAdd(url);

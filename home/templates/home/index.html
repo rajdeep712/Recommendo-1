@@ -6,22 +6,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recommendo</title>
-    <link rel="icon" type="image/png" href="{% static "home/logo.png" %}">
     <link rel="stylesheet" href="{% static "home/styles.css" %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{% static "home/includes/footer.css" %}">
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
   </head>
   <body>
+    
     <div id="lottie-overlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:#111;display:flex;align-items:center;justify-content:center;">
-      <lottie-player
-        src="{% static 'home/Welcome.json' %}"
-        background="transparent"
-        speed="1"
-        style="width: 500px; height: 500px;"
+      <dotlottie-wc
+        src="https://lottie.host/1e1fafb5-26f3-4cf9-924b-67f80c6adbae/mGee0zTmRw.lottie"
+        style="width:320px;height:320px;"
+        autoplay
         loop
-        autoplay>
-      </lottie-player>
+      ></dotlottie-wc>
     </div>
 
     <div class="movie-layout">
@@ -141,14 +139,12 @@
         <div class="movie-header">
           <div class="starting"></div>
           <h2>Trending</h2>
-          <div class="movie-loader"></div>
         </div>
         <div class="movie-grid" id="movieGrid">
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="trending">
-            
-
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>
@@ -158,14 +154,12 @@
         <div class="movie-header">
           <div class="starting"></div>
           <h2>Latest</h2>
-          <div class="movie-loader" id="latest-loader"></div>
         </div>
         <div class="movie-grid" id="movieGrid">
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="latest">
-            
-
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>
@@ -175,15 +169,12 @@
         <div class="movie-header">
           <div class="starting"></div>
           <h2>Top-Rated</h2>
-          <div class="movie-loader" id="top-loader"></div>
         </div>
         <div class="movie-grid" id="movieGrid">
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="top">
-            
-            
-
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>

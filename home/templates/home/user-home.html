@@ -6,8 +6,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recommendo</title>
-    <link rel="icon" type="image/png" href="{% static "home/logo.png" %}">
     <link rel="stylesheet" href="{% static "home/user-home.css" %}" />
+    <link rel="icon" type="image/png" href="{% static "home/logo.png" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{% static "home/includes/footer.css" %}">
 
@@ -119,8 +119,7 @@
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="trending">
-            
-            <div class="movie-loader-container"><div class="movie-loader"></div></div>
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>
@@ -134,8 +133,7 @@
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="latest">
-            
-            <div class="movie-loader-container"><div class="movie-loader"></div></div>
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>
@@ -150,8 +148,7 @@
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="top">
-            
-            <div class="movie-loader-container"><div class="movie-loader"></div></div>
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>
@@ -165,8 +162,7 @@
           <button class="scroll-btn left" onclick="scrollMovies(this,-1)"><</button>
           <button class="scroll-btn right" onclick="scrollMovies(this,1)">></button>
           <div class="movie" id="favcasts">
-            
-            <div class="movie-loader-container"><div class="movie-loader"></div></div>
+            {% include "home/includes/skeleton_cards.html" %}
           </div>
         </div>
       </section>

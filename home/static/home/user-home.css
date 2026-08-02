@@ -386,6 +386,28 @@ body {
 .movie-card:hover {
   transform: translateY(-5px);
 }
+
+.movie-card.skeleton {
+  background: linear-gradient(
+    90deg,
+    #1a1a1a 0%,
+    #2e2e2e 40%,
+    #1a1a1a 80%
+  );
+  background-size: 200% 100%;
+  animation: movie-shimmer 1.4s ease-in-out infinite;
+  pointer-events: none;
+  cursor: default;
+}
+
+.movie-card.skeleton:hover {
+  transform: none;
+}
+
+@keyframes movie-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
   
 
 
